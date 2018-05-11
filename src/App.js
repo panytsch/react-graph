@@ -26,7 +26,7 @@ const data = {
       pointHoverBorderWidth: 2,
       pointRadius: 1,
       pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40]
+      data: [8557.89, 8592.8, 8674.95, 8578.84, 8578.84, 8516.91, 8575.48]
     }
   ]
 };
@@ -38,27 +38,39 @@ class App extends Component {
       userData: null,
       lineData: data
     };
+    this.temp = data.datasets[0].data[data.datasets[0].data.length - 1];
+  }
+  componentDidMount() {
+    setInterval(() => {
+      let buff = this.state.lineData;
+      buff.datasets[0].data.push(this.temp);
+      buff.datasets[0].data.splice(0, 1);
+      this.setState({
+        lineData: buff
+      });
+      console.log(this.state.lineData);
+    }, 5000);
   }
   handleData(d) {
     let result = JSON.parse(d);
-    this.setState({
-      userData: result,
-      lineData: this.state.lineData.datasets[0].data.push(
-        result.events[0].price
-      )
-    });
-    // console.log(result.events[0].price);
-    // data.datasets[0].data.push(result.events[0].price);
+    if (!result.socket_sequence) {
+      return;
+    }
+    this.temp = +result.events[0].price;
+    console.log(this.temp);
   }
   render() {
     return (
       <div>
         <Line data={this.state.lineData} />
         Data:{" "}
-        <p>{this.state.userData && this.state.userData.events[0].price}</p>
-        {/* {console.log(
-          this.state.userData && this.state.userData.events[0].price
-        )} */}
+        <p>
+          {
+            this.state.lineData.datasets[0].data[
+              this.state.lineData.datasets[0].data.length - 1
+            ]
+          }
+        </p>
         <Websocket
           url="wss://api.gemini.com/v1/marketdata/btcusd"
           onMessage={this.handleData.bind(this)}
