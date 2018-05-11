@@ -1,11 +1,20 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import Line from "./graph/Line";
+import LineEx from "./graph/Line";
+import SocketLine from "./graph/SocketLine";
 import Websocket from "react-websocket";
 
 const data = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  labels: [
+    new Date(1526065839024).toLocaleTimeString(),
+    new Date(1526065849034).toLocaleTimeString(),
+    new Date(1526065859044).toLocaleTimeString(),
+    new Date(1526065869054).toLocaleTimeString(),
+    new Date(1526065879064).toLocaleTimeString(),
+    new Date(1526065889074).toLocaleTimeString(),
+    new Date(1526065899084).toLocaleTimeString()
+  ],
   datasets: [
     {
       label: "My First dataset",
@@ -35,35 +44,29 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: null,
       lineData: data
     };
     this.temp = data.datasets[0].data[data.datasets[0].data.length - 1];
   }
-  componentDidMount() {
-    setInterval(() => {
-      let buff = this.state.lineData;
-      buff.datasets[0].data.push(this.temp);
-      buff.datasets[0].data.splice(0, 1);
-      this.setState({
-        lineData: buff
-      });
-      console.log(this.state.lineData);
-    }, 5000);
-  }
+
   handleData(d) {
     let result = JSON.parse(d);
     if (!result.socket_sequence) {
       return;
     }
     this.temp = +result.events[0].price;
-    console.log(this.temp);
+    this.time = result.events.timestampms;
+    console.log(result);
   }
   render() {
     return (
       <div>
-        <Line data={this.state.lineData} />
-        Data:{" "}
+        <SocketLine
+          data={this.state.lineData}
+          displayName="Currency"
+          socket={this.temp}
+        />
+        Data:
         <p>
           {
             this.state.lineData.datasets[0].data[
