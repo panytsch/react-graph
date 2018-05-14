@@ -1,20 +1,8 @@
 import React from "react";
 import Websocket from "react-websocket";
 import { Line } from "react-chartjs-2";
-import { defaults } from "react-chartjs-2";
-
-defaults.global.animation = true;
 
 class LiveChart extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.chartData = [];
-  //   this.chartTime = [];
-  //   this.length = 5;
-  //   this.state = {
-  //     data: null
-  //   };
-  // }
   chartData = [];
   chartTime = [];
   length = 20;
@@ -37,7 +25,7 @@ class LiveChart extends React.Component {
     console.log(this.chartTime, this.chartData);
     this.setState({
       data: {
-        labels: this.chartTime,
+        labels: [...this.chartTime],
         datasets: [
           {
             label: "BTC Real-time",
@@ -58,7 +46,7 @@ class LiveChart extends React.Component {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: this.chartData
+            data: [...this.chartData]
           }
         ]
       }
