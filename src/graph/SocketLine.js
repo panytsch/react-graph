@@ -11,6 +11,7 @@ class SocketLine extends React.Component {
   }
 
   render() {
+    console.log(this.state.data.datasets[0].data[0]);
     return (
       <div>
         <h2>Line Example</h2>
