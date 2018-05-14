@@ -1,32 +1,28 @@
 import React, { Component } from "react";
 import { Line } from "react-chartjs-2";
 import Websocket from "react-websocket";
+import { defaults } from "react-chartjs-2";
+
+defaults.global.animation = false;
 
 class LiveChart extends Component {
   state = {
     data: undefined
   };
-  length = 100;
+  length = 10;
   handleData(data) {
     let result = JSON.parse(data);
-    let dataToChart = [];
-    let encodedTimes = [];
+    let dataToChart =
+      (this.state.data && this.state.data.datasets[0].data) || [];
+    let encodedTimes = (this.state.data && this.state.data.labels) || [];
     let encodedTime = new Date(result.timestampms).toLocaleTimeString();
-    while (encodedTimes.length < this.length) {
-      encodedTimes.push(encodedTime);
-    }
-
-    encodedTimes.splice(0, 1);
-    encodedTimes.splice(this.length - 1, 0, encodedTime);
-
-    Object.values(result.events).map(e => {
-      while (dataToChart.length < this.length) {
-        dataToChart.push(e.price);
-      }
+    encodedTimes.push(encodedTime);
+    dataToChart.push(+result.events[0].price);
+    if (encodedTimes.length > this.length) {
+      encodedTimes.splice(0, 1);
       dataToChart.splice(0, 1);
-      dataToChart.splice(this.length - 1, 0, e.price);
-      return true;
-    });
+    }
+    console.log(encodedTimes, dataToChart);
     this.setState({
       data: {
         labels: encodedTimes,
