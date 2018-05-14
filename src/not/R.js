@@ -1,48 +1,37 @@
-import React from "react";
-import Websocket from "react-websocket";
+import React, { Component } from "react";
 import { Line } from "react-chartjs-2";
-import { defaults } from "react-chartjs-2";
-
-defaults.global.animation = true;
-
-class LiveChart extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.chartData = [];
-  //   this.chartTime = [];
-  //   this.length = 5;
-  //   this.state = {
-  //     data: null
-  //   };
-  // }
-  chartData = [];
-  chartTime = [];
-  length = 20;
+import Websocket from "react-websocket";
+let arr = [];
+class Chart extends Component {
   state = {
-    data: null
+    data: undefined
   };
 
-  handleData(dat) {
-    let result = JSON.parse(dat);
-    if (!result.socket_sequence) {
-      return;
-    }
+  handleData(data) {
+    let result = JSON.parse(data);
+    let dataToChart = [];
+    let encodedTimes = [];
+
     let encodedTime = new Date(result.timestampms).toLocaleTimeString();
-    this.chartTime.push(encodedTime);
-    this.chartData.push(+result.events[0].price);
-    if (this.chartTime.length > this.length) {
-      this.chartTime.splice(0, 1);
-      this.chartData.splice(0, 1);
+    while (encodedTimes.length < 20) {
+      encodedTimes.push(encodedTime);
     }
-    console.log(this.chartTime, this.chartData);
+    encodedTimes.splice(0, 1);
+    encodedTimes.splice(19, 0, encodedTime);
+    arr.push(+result.events[0].price);
+    if (arr.length > 20) {
+      arr.shift();
+    }
+    console.log("igor array:" + dataToChart);
+    console.log("my array:" + arr);
     this.setState({
       data: {
-        labels: this.chartTime,
+        labels: encodedTimes,
         datasets: [
           {
             label: "BTC Real-time",
             fill: true,
-            lineTension: 0.1,
+            lineTension: 0.05,
             backgroundColor: "rgba(75,192,192,0.4)",
             borderColor: "rgba(75,192,192,1)",
             borderCapStyle: "butt",
@@ -51,14 +40,14 @@ class LiveChart extends React.Component {
             borderJoinStyle: "miter",
             pointBorderColor: "rgba(75,192,192,1)",
             pointBackgroundColor: "#fff",
-            pointBorderWidth: 5,
-            pointHoverRadius: 10,
+            pointBorderWidth: 3,
+            pointHoverRadius: 8,
             pointHoverBackgroundColor: "rgba(75,192,192,1)",
             pointHoverBorderColor: "rgba(220,220,220,1)",
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: this.chartData
+            data: arr
           }
         ]
       }
@@ -88,4 +77,4 @@ class LiveChart extends React.Component {
   }
 }
 
-export default LiveChart;
+export default Chart;
