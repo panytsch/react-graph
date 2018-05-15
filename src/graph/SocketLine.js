@@ -22,7 +22,6 @@ class LiveChart extends React.Component {
       this.chartTime.splice(0, 1);
       this.chartData.splice(0, 1);
     }
-    console.log(this.chartTime, this.chartData);
     this.setState({
       data: {
         labels: [...this.chartTime],
