@@ -2,42 +2,9 @@ import React from "react";
 import { Form, Field } from "react-final-form";
 import { OnChange } from "react-final-form-listeners";
 import axios from "axios";
+import papers from "../papers";
 
 const coins = ["BTC", "ETH"];
-const papers = [
-  "USD",
-  "AUD",
-  "BRL",
-  "CAD",
-  "CHF",
-  "CLP",
-  "CNY",
-  "CZK",
-  "DKK",
-  "EUR",
-  "GBP",
-  "HKD",
-  "HUF",
-  "IDR",
-  "ILS",
-  "INR",
-  "JPY",
-  "KRW",
-  "MXN",
-  "MYR",
-  "NOK",
-  "NZD",
-  "PHP",
-  "PKR",
-  "PLN",
-  "RUB",
-  "SEK",
-  "SGD",
-  "THB",
-  "TRY",
-  "TWD",
-  "ZAR"
-];
 
 class Currency extends React.Component {
   constructor(props) {
@@ -61,7 +28,6 @@ class Currency extends React.Component {
           arr.push(obj[k]);
         }
         _this.setState(Object.assign(_this.state, { coins: arr }));
-        console.log(_this.state.coins);
       })
       .catch(function(error) {
         console.log(error);

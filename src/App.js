@@ -4,13 +4,15 @@ import "./App.css";
 import LineEx from "./graph/Line";
 import SocketLine from "./graph/SocketLine";
 import Price from "./currency/Price";
+import Calculator from "./currency/Calculator";
 
 class App extends Component {
   render() {
     return (
       <div>
-        <Price />
-        <SocketLine />
+        {/* <Price /> */}
+        <Calculator />
+        {/* <SocketLine /> */}
       </div>
     );
   }
