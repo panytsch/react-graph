@@ -3,6 +3,8 @@ import { Form, Field } from "react-final-form";
 import { OnChange } from "react-final-form-listeners";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
+import Sel from "./StyleHistory";
+
 const API = "https://api.coindesk.com/v1/bpi/historical/close.json";
 const lineData = {
   data: {
@@ -83,12 +85,12 @@ class History extends React.Component {
               <Field name="dateStamp">
                 {obj => {
                   return (
-                    <select {...obj.input}>
+                    <Sel {...obj.input}>
                       <option value={week}>Week</option>
                       <option value={day}>Day</option>
                       <option value={month}>Month</option>
                       <option value={year}>Year</option>
-                    </select>
+                    </Sel>
                   );
                 }}
               </Field>
