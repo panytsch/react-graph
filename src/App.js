@@ -6,14 +6,15 @@ import History from "./graph/History";
 import Price from "./currency/Price";
 import Calculator from "./currency/Calculator";
 import DIVA from "./Styles";
+
 class App extends Component {
   render() {
     return (
       <DIVA>
         <Price />
-        {/* <Calculator /> */}
-        {/* <History /> */}
-        {/* <SocketLine /> */}
+        <Calculator />
+        <History />
+        <SocketLine />
       </DIVA>
     );
   }
