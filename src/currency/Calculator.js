@@ -30,7 +30,6 @@ class Calculator extends React.Component {
           arr.push(obj[k]);
         }
         _this.setState(Object.assign(_this.state, { coins: arr }));
-        console.log(this.state.coins);
       })
       .catch(function(error) {
         console.log(error);
