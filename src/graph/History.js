@@ -96,7 +96,7 @@ class History extends React.Component {
               </Field>
               <OnChange name="dateStamp">
                 {v => {
-                  this.fetchData(thisDay, getStringDate(thisDayNum - v * 2));
+                  this.fetchData(thisDay, getStringDate(thisDayNum - v));
                 }}
               </OnChange>
             </form>
