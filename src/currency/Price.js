@@ -3,6 +3,7 @@ import { Form, Field } from "react-final-form";
 import { OnChange } from "react-final-form-listeners";
 import axios from "axios";
 import papers from "../papers";
+import DIVA from "./StylePrice";
 
 const coins = ["BTC", "ETH"];
 
@@ -55,54 +56,52 @@ class Currency extends React.Component {
   }
   render() {
     return (
-      <div>
+      <DIVA>
         <h2>Crypto price</h2>
         <Form
           onSubmit={() => {}}
           render={({ handleSubmit, submitting, values }) => (
             <form onSubmit={handleSubmit}>
-              <div>
-                <Field name="currency">
-                  {obj => {
-                    let coin =
-                      (this.state &&
-                        this.state.coins.length &&
-                        this.state.coins) ||
-                      coins;
-                    return (
-                      <div>
-                        <select {...obj.input}>
-                          <option value={papers[0]}>Choose</option>
-                          {papers.map((i, key) => (
-                            <option value={i} key={key}>
-                              {i}
-                            </option>
-                          ))}
-                        </select>
-                        <ul>
-                          {coin.map((i, k) => {
-                            return (
-                              <li key={k}>
-                                {i.name || i} price: {this.state[i.id] || ""}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    );
-                  }}
-                </Field>
-                <OnChange name="currency">
-                  {value => {
-                    // this.getAllPrice(1, value);
-                    this.change(value);
-                  }}
-                </OnChange>
-              </div>
+              <Field name="currency">
+                {obj => {
+                  let coin =
+                    (this.state &&
+                      this.state.coins.length &&
+                      this.state.coins) ||
+                    coins;
+                  return (
+                    <div>
+                      <select {...obj.input}>
+                        <option value={papers[0]}>Choose</option>
+                        {papers.map((i, key) => (
+                          <option value={i} key={key}>
+                            {i}
+                          </option>
+                        ))}
+                      </select>
+                      <nav>
+                        {coin.map((i, k) => {
+                          return (
+                            <li key={k}>
+                              {i.name || i} price: {this.state[i.id] || ""}
+                            </li>
+                          );
+                        })}
+                      </nav>
+                    </div>
+                  );
+                }}
+              </Field>
+              <OnChange name="currency">
+                {value => {
+                  // this.getAllPrice(1, value);
+                  this.change(value);
+                }}
+              </OnChange>
             </form>
           )}
         />
-      </div>
+      </DIVA>
     );
   }
 }
